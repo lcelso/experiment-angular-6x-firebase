@@ -26,7 +26,4 @@ export class ListaComponent implements OnInit {
     return this.usersService.getUsers(path);
   }
 
-  update(payload, user) {
-    this.usersService.update(payload, user);
-  }
 }
