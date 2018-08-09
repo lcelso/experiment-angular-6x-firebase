@@ -18,23 +18,8 @@ export class UserService {
     console.log('Success');
   }
 
-  update(sName: string, user) {
-    const customers = this.db.object('/customers');
-    // customers.update('key', customerObject);
-    const objV = {name: sName};
-    console.log(customers.update('key', objV));
-    // console.log(user.$key);
-    // this.db.object(this.basePath).update({
-    //   name: sName
-    //   });
-    // const obj = this.db.database.ref(this.basePath);
-    // const tmp: Item = { name: sName };
-
-    // obj.update(tmp);
-  }
 
   getUsers(path): Observable<any[]> {
-
 
     this.db.list('/').valueChanges().subscribe(actions => {
       actions.forEach(action => {
