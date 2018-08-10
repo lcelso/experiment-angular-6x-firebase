@@ -1,16 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app.routes';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
-import { environment } from '../environments/environment';
-import { UserService } from '../app/services/users.service';
 
 @NgModule({
   declarations: [
@@ -20,12 +20,13 @@ import { UserService } from '../app/services/users.service';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     BrowserModule,
-    BrowserAnimationsModule,
     SharedModule,
     AppRoutingModule,
-    PagesModule
+    PagesModule,
+    FormsModule,
+    CommonModule,
   ],
-  providers: [UserService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

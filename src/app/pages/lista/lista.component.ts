@@ -1,29 +1,55 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { UserService } from '../../services/users.service';
+import { Users } from '../../services/users.model';
 
 @Component({
-    selector: 'app-lista',
-    templateUrl: 'lista.component.html',
-    styleUrls: ['lista.component.scss']
+  selector: 'app-lista',
+  templateUrl: './lista.component.html',
+  styleUrls: ['./lista.component.scss']
 })
 export class ListaComponent implements OnInit {
-
-  public users: Observable<any[]>;
+  users: any;
+  edit = false;
+  submitted = false;
   constructor(private usersService: UserService) { }
 
   ngOnInit() {
-    // const dataObj = {
-    //   name: 'Maria do Bairro',
-    //   email: 'maria@dobairro.com.br'
-    // };
-    // this.usersService.addUsers(dataObj);
-    this.users = this.getUsers('/users');
+    this.getUsersList();
   }
 
-  getUsers(path) {
-    return this.usersService.getUsers(path);
+  getUsersList() {
+    this.usersService.getUsers().snapshotChanges().pipe(
+      map(changes =>
+        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
+      )
+    ).subscribe(users => {
+      this.users = users;
+    });
   }
 
+  onSubmit(user) {
+    this.toogleEdit(user.key, false);
+    delete user['edit'];
+    this.saveUser(user);
+  }
+  saveUser(user) {
+    this.usersService.updateUser(user.key, user);
+  }
+
+  editUser(userKey) {
+    this.toogleEdit(userKey, true);
+  }
+
+  toogleEdit(userKey, value) {
+    this.users.forEach(user => {
+      if (user.key === userKey) {
+        user.edit = value;
+      }
+    });
+  }
+  deleteUser(userKey) {
+    this.usersService.deleteUser(userKey);
+  }
 }

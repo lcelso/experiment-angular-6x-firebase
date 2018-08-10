@@ -19,6 +19,9 @@ import { RouterModule } from '@angular/router';
     // ValidateParameterService,
   ],
   exports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
     // VoxelMbHeaderComponent,
   ]
 })

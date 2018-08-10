@@ -1,37 +1,35 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Observable } from 'rxjs';
+import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 
-export interface Item {
-  name: string;
-}
+import { Users } from '../services/users.model';
 
 @Injectable()
 export class UserService {
 
   private basePath = '/users';
-  constructor(private db: AngularFireDatabase) { }
+  usersLists: AngularFireList<Users> = null;
 
-  addUsers(data) {
-    const obj = this.db.database.ref(this.basePath);
-    obj.push(data);
-    console.log('Success');
+  constructor(private db: AngularFireDatabase ) {
+    this.usersLists = db.list(this.basePath);
   }
 
+  getUsers(): AngularFireList<Users> {
+    return this.usersLists;
+  }
 
-  getUsers(path): Observable<any[]> {
+  createUser(user: Users): void {
+    this.usersLists.push(user);
+  }
 
-    this.db.list('/').valueChanges().subscribe(actions => {
-      actions.forEach(action => {
-        console.log(action)
-        // console.log(action.payload.ref.database)
-        // console.log(action.payload.node_.children_.root_);
-        // const value = action.payload.val();
-        // const id = action.payload.key;
-        // this.todosKeyValues.set(id, value);
-      });
-    });
+  updateUser(key: string, value: any): void {
+    this.usersLists.update(key, value).catch(error => this.handleError(error));
+  }
 
-    return this.db.list(path).valueChanges();
+  deleteUser(key: string): void {
+    this.usersLists.remove(key).catch(error => this.handleError(error));
+  }
+
+  private handleError(error) {
+    console.log(error);
   }
 }

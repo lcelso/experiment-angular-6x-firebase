@@ -1,11 +1,43 @@
 <h3>Lista de Cadastros</h3>
+<div class="container" *ngFor="let user of users; let i = index">
 
-<ul *ngFor="let user of users | async">
-  <li>{{ user.name }}</li>
-  <li>{{ user.email }}</li>
-<li>{{ user | json }}</li>
-  <li>
-    <input #updateName>
-    <button (click)="">Change User Name</button>
-  </li>
-</ul>
+  <table *ngIf="!user.edit">
+    <tr>
+      <td>{{ i + 1 }}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+      <td>KEY: {{user.key}}</td>
+      <td>
+        <button type="button" class="btn btn-primary" (click)="editUser(user.key)">
+          Editar
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteUser(user.key)">
+          Apagar
+        </button>
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="user.edit">
+    <div [hidden]="submitted">
+      <form (ngSubmit)="onSubmit(user)">
+        <div class="form-group">
+          <label for="name">Nome:</label>
+          <input type="text" class="form-control" id="name" required [(ngModel)]="user.name" name="name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail:</label>
+          <input type="text" class="form-control" id="email" required [(ngModel)]="user.email" name="email">
+        </div>
+
+        <div class="form-group">
+          <label for="password">Senha:</label>
+          <input type="text" class="form-control" id="password" required [(ngModel)]="user.password" name="password">
+        </div>
+
+        <button type="submit" class="btn btn-success">Salvar</button>
+      </form>
+    </div>
+  </div>
+</div>
