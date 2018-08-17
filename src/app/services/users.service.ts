@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
+import * as firebase from 'firebase/app';
 
 import { Users } from '../services/users.model';
 
@@ -9,8 +10,19 @@ export class UserService {
   private basePath = '/users';
   usersLists: AngularFireList<Users> = null;
 
-  constructor(private db: AngularFireDatabase ) {
+  userId: string;
+
+  constructor(private db: AngularFireDatabase) {
     this.usersLists = db.list(this.basePath);
+  }
+
+  getTest(type, value) {
+    const ref = this.db.database.ref(this.basePath);
+    let itemUser;
+    ref.orderByChild(type).equalTo(value).on('child_added', function(snapshot) {
+      itemUser = snapshot.val();
+    });
+    return itemUser;
   }
 
   getUsers(): AngularFireList<Users> {

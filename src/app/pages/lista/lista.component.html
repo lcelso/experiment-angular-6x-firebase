@@ -41,3 +41,26 @@
     </div>
   </div>
 </div>
+
+<form *ngIf="!teste2" (ngSubmit)="login()">
+  <div class="form-group">
+    <label for="email">E-mail:</label>
+    <input type="text" class="form-control" id="email" required [(ngModel)]="dateLogin.email" name="email">
+  </div>
+
+  <div class="form-group">
+    <label for="password">Senha:</label>
+    <input type="text" class="form-control" id="password" required [(ngModel)]="dateLogin.password" name="password">
+  </div>
+
+  <button type="submit" class="btn btn-success">Logar</button>
+</form>
+
+<ul *ngIf="teste2">
+  <li>Você esta logado como: </li>
+  <li>{{ userLogin.name }}</li>
+  <li>{{ userLogin.email }}</li>
+</ul>
+
+
+

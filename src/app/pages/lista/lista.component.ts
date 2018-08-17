@@ -13,6 +13,14 @@ export class ListaComponent implements OnInit {
   users: any;
   edit = false;
   submitted = false;
+  teste: any;
+
+  userLogin: any;
+
+  teste2 = false;
+
+  dateLogin: Users = new Users();
+
   constructor(private usersService: UserService) { }
 
   ngOnInit() {
@@ -20,6 +28,32 @@ export class ListaComponent implements OnInit {
   }
 
   getUsersList() {
+    // this.teste.once('value').then(function(snap) {
+    //   snap.forEach(item => {
+
+    //     item.value
+
+    //     // if (item.child('name').toJSON() === 'marquinhos') {
+    //     //   itemValue = item.toJSON();
+    //     //   // console.log(itemValue);
+    //     // }
+    //   });
+    //   // console.log(itemValue);
+    //   // this.userLogin = itemValue;
+    // });
+
+    // this.teste.transaction(function(currentData) {
+    //   console.log(currentData);
+    // });
+
+    // this.teste = this.usersService.getTest('name', 'marquinhos');
+
+    // this.teste.orderByChild('name').equalTo('marquinhos').on('child_added', function(snapshot) {
+    //   console.log(snapshot.val().email);
+    //   console.log(snapshot.val().password);
+    // });
+
+
     this.usersService.getUsers().snapshotChanges().pipe(
       map(changes =>
         changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
@@ -27,6 +61,25 @@ export class ListaComponent implements OnInit {
     ).subscribe(users => {
       this.users = users;
     });
+
+  }
+
+  recuperaUser(data, typeEmail, typePass) {
+    this.userLogin = this.usersService.getTest(typeEmail, data.email);
+    console.log(this.userLogin);
+
+    if (this.userLogin.email === data.email && this.userLogin.password === data.password) {
+      console.log('logado');
+      this.teste2 = !this.teste2;
+    } else {
+      console.log('errrouuuuuuuuu')
+    }
+
+  }
+
+  login() {
+    console.log(this.dateLogin);
+    this.recuperaUser(this.dateLogin, 'email', 'password')
   }
 
   onSubmit(user) {
@@ -34,6 +87,7 @@ export class ListaComponent implements OnInit {
     delete user['edit'];
     this.saveUser(user);
   }
+
   saveUser(user) {
     this.usersService.updateUser(user.key, user);
   }
