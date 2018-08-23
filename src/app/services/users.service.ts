@@ -1,47 +1,31 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import * as firebase from 'firebase/app';
 
-import { Users } from '../services/users.model';
+import { Users } from './users.model';
+import { MethodsFirebaseService } from './methodsFirebase.service';
 
 @Injectable()
 export class UserService {
 
-  private basePath = '/users';
-  usersLists: AngularFireList<Users> = null;
+  constructor(private methodsFirebase: MethodsFirebaseService) {}
 
-  userId: string;
-
-  constructor(private db: AngularFireDatabase) {
-    this.usersLists = db.list(this.basePath);
+  searchUserData(path, type, value) {
+    return this.methodsFirebase.queryItem(path, type, value);
   }
 
-  getTest(type, value) {
-    const ref = this.db.database.ref(this.basePath);
-    let itemUser;
-    ref.orderByChild(type).equalTo(value).on('child_added', function(snapshot) {
-      itemUser = snapshot.val();
-    });
-    return itemUser;
+  getListData(path): AngularFireList<Users> {
+    return this.methodsFirebase.getListData(path);
   }
 
-  getUsers(): AngularFireList<Users> {
-    return this.usersLists;
+  createUser(path, user: Users): void {
+    this.methodsFirebase.create(path, user);
   }
 
-  createUser(user: Users): void {
-    this.usersLists.push(user);
+  updateUser(path, key: string, value: any): void {
+    this.methodsFirebase.update(path, key, value);
   }
 
-  updateUser(key: string, value: any): void {
-    this.usersLists.update(key, value).catch(error => this.handleError(error));
-  }
-
-  deleteUser(key: string): void {
-    this.usersLists.remove(key).catch(error => this.handleError(error));
-  }
-
-  private handleError(error) {
-    console.log(error);
+  deleteUser(path, key: string): void {
+    this.methodsFirebase.delete(path, key);
   }
 }

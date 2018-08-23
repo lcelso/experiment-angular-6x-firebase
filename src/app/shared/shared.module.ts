@@ -3,8 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 
-// import { ValidateParameterService } from 'voxel-mb-services/validate-required-parameter.service';
-// import { VoxelMbHeaderComponent } from 'voxel-mb-header/voxel-mb-header.component';
+import { MethodsFirebaseService } from '../services/methodsFirebase.service';
 
 @NgModule({
   imports: [
@@ -13,16 +12,14 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ],
   declarations: [
-    // VoxelMbHeaderComponent,
   ],
   providers: [
-    // ValidateParameterService,
+    MethodsFirebaseService,
   ],
   exports: [
     CommonModule,
     FormsModule,
     RouterModule,
-    // VoxelMbHeaderComponent,
   ]
 })
 export class SharedModule { }

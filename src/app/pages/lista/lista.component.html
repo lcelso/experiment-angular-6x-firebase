@@ -4,9 +4,8 @@
   <table *ngIf="!user.edit">
     <tr>
       <td>{{ i + 1 }}</td>
-      <td>{{user.name}}</td>
-      <td>{{user.email}}</td>
-      <td>KEY: {{user.key}}</td>
+      <td>Nome: {{user.name}}</td>
+      <td>E-mail: {{user.email}}</td>
       <td>
         <button type="button" class="btn btn-primary" (click)="editUser(user.key)">
           Editar
@@ -42,7 +41,7 @@
   </div>
 </div>
 
-<form *ngIf="!teste2" (ngSubmit)="login()">
+<form *ngIf="!isLogged" (ngSubmit)="loginIn()">
   <div class="form-group">
     <label for="email">E-mail:</label>
     <input type="text" class="form-control" id="email" required [(ngModel)]="dateLogin.email" name="email">
@@ -56,7 +55,7 @@
   <button type="submit" class="btn btn-success">Logar</button>
 </form>
 
-<ul *ngIf="teste2">
+<ul *ngIf="isLogged">
   <li>Você esta logado como: </li>
   <li>{{ userLogin.name }}</li>
   <li>{{ userLogin.email }}</li>

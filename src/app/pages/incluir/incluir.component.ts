@@ -11,6 +11,8 @@ import { Users } from '../../services/users.model';
 })
 export class IncluirComponent implements OnInit {
 
+  private basePath = '/users';
+
   users: Users = new Users();
   submitted = false;
   constructor(private userService: UserService) {}
@@ -27,7 +29,7 @@ export class IncluirComponent implements OnInit {
   }
 
   saveUser() {
-    this.userService.createUser(this.users);
+    this.userService.createUser(this.basePath, this.users);
     this.users = new Users();
   }
 }
