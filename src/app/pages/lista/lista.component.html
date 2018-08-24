@@ -1,20 +1,32 @@
 <h3>Lista de Cadastros</h3>
-<div class="container" *ngFor="let user of users; let i = index">
 
-  <table *ngIf="!user.edit">
-    <tr>
-      <td>{{ i + 1 }}</td>
-      <td>Nome: {{user.name}}</td>
-      <td>E-mail: {{user.email}}</td>
-      <td>
-        <button type="button" class="btn btn-primary" (click)="editUser(user.key)">
-          Editar
-        </button>
-        <button type="button" class="btn btn-danger" (click)="deleteUser(user.key)">
-          Apagar
-        </button>
-      </td>
-    </tr>
+<hr>
+
+<div class="container" *ngFor="let user of users; let i = index">
+  <table class="table" *ngIf="!user.edit">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nome</th>
+        <th scope="col">Email</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ i + 1 }}</td>
+        <td>Nome: {{user.name}}</td>
+        <td>E-mail: {{user.email}}</td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="editUser(user.key)">
+            Editar
+          </button>
+          <button type="button" class="btn btn-danger" (click)="deleteUser(user.key)">
+            Apagar
+          </button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 
   <div *ngIf="user.edit">
@@ -41,25 +53,6 @@
   </div>
 </div>
 
-<form *ngIf="!isLogged" (ngSubmit)="loginIn()">
-  <div class="form-group">
-    <label for="email">E-mail:</label>
-    <input type="text" class="form-control" id="email" required [(ngModel)]="dateLogin.email" name="email">
-  </div>
-
-  <div class="form-group">
-    <label for="password">Senha:</label>
-    <input type="text" class="form-control" id="password" required [(ngModel)]="dateLogin.password" name="password">
-  </div>
-
-  <button type="submit" class="btn btn-success">Logar</button>
-</form>
-
-<ul *ngIf="isLogged">
-  <li>Você esta logado como: </li>
-  <li>{{ userLogin.name }}</li>
-  <li>{{ userLogin.email }}</li>
-</ul>
 
 
 

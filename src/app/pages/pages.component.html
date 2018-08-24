@@ -1,10 +1,15 @@
 <header>
   <h1>Logotipo</h1>
 
-  <nav>
+  <nav *ngIf="currentUrl == '/cadastros/lista' && isLogged || currentUrl == '/cadastros/incluir' && isLogged">
     <a routerLink="lista" routerLinkActive="active-link">Lista</a>
     <a routerLink="incluir" routerLinkActive="active-link">Incluir</a>
   </nav>
+
+  <div *ngIf="isLogged">
+    <p>Usuário: {{ isUser.name }}</p>
+    <p>Email: {{ isUser.email }}</p>
+  </div>
 </header>
 <main>
   <router-outlet></router-outlet>

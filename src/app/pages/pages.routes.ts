@@ -10,7 +10,11 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'lista'
+        redirectTo: 'login'
+      },
+      {
+        path: 'login',
+        loadChildren: './login/login.module#PageLoginModule',
       },
       {
         path: 'lista',

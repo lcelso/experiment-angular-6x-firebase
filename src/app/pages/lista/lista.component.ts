@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 
+import { Store } from '@ngrx/store';
+import { LOGIN_VALUE } from '../../state-management/actions/segment.actions';
+import { Segment } from '../../state-management/state/segment.state';
+
 import { UserService } from '../../services/users.service';
 import { Users } from '../../services/users.model';
 
@@ -15,10 +19,10 @@ export class ListaComponent implements OnInit {
   edit = false;
   submitted = false;
   userLogin: any;
-  isLogged = false;
   dateLogin: Users = new Users();
 
-  constructor(private usersService: UserService) { }
+  constructor(private usersService: UserService, private store: Store<Segment>) {
+  }
 
   ngOnInit() {
     this.getUsersList();
@@ -32,21 +36,6 @@ export class ListaComponent implements OnInit {
     ).subscribe(users => {
       this.users = users;
     });
-  }
-
-  recuperaUser(data, typeEmail) {
-    this.userLogin = this.usersService.searchUserData(this.basePath, typeEmail, data.email);
-console.log(this.userLogin);
-
-    if (this.userLogin.email === data.email && this.userLogin.password === data.password) {
-      // this.store.dispatch({ type: LOGIN_UPDATE_VALUE, payload: { value: data.itemSelectedValue } });
-      return this.isLogged = !this.isLogged;
-    }
-    console.log('errrouuuuuuuuu');
-  }
-
-  loginIn() {
-    this.recuperaUser(this.dateLogin, 'email');
   }
 
   onSubmit(user) {

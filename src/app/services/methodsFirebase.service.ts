@@ -7,9 +7,9 @@ export class MethodsFirebaseService {
   constructor(private db: AngularFireDatabase) {}
 
   private listData(path) {
-    let item: AngularFireList<any> = null;
-    item = this.db.list(path);
-    return item;
+    let data: AngularFireList<any> = null;
+    data = this.db.list(path);
+    return data;
   }
 
   private handleError(error) {
@@ -17,14 +17,13 @@ export class MethodsFirebaseService {
   }
 
   queryItem(path, type, value) {
-    let itemUser;
+    let data;
     const ref = this.db.database.ref(path);
 
     ref.orderByChild(type).equalTo(value).on('child_added', function(snapshot) {
-      itemUser = snapshot.val();
+      data = snapshot.val();
     });
-
-    return itemUser;
+    return data;
   }
 
   getListData(path) {
